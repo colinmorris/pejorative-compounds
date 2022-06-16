@@ -2,11 +2,16 @@ Experiment in collecting and analysing data on the frequencies of compound insul
 
 Warning: this repository contains language that some readers may find **very offensive**, including slurs.
 
+There are three main ingredients in this repo:
+- `counts.csv`, a dataset mapping ~4,800 compound pejoratives to the number of Reddit comments containing that compound. (`wikt.csv` has the same format with a column recording whether the term has an entry in Wiktionary)
+- various Python scripts used to generate this dataset. This process is documented in the "Data pipeline" section below, though you probably don't need to run these unless you want to expand the dataset with a different set of affixes or time range.
+- various IPython notebooks exploring and visualizing the dataset (See "Guide to IPython notebooks" section below)
+
 ## Overview
 
 I manually curated lists of around 70 prefixes and 70 suffixes (with some overlap between them) which could plausibly be used to form a variety of pejorative compounds. These lists can be found in `reddit_counts.py`.
 
-For each of the ~70x70 possible A+B compounds from the product of these lists, I used the Pushshift API to collect comments containing that compound. I then applied some data cleaning steps and heuristics to estimate the number of comments using that term on Reddit up to the end of 2020. (See the "Data pipeline" section below for the technical details on how each step of the data collection and cleaning is performed.)
+For each of the ~70x70 possible A+B compounds from the product of these lists, I used the Pushshift API to collect comments containing that compound. I then applied some data cleaning steps and heuristics to estimate the number of comments using that term on Reddit up to the end of 2020.
 
 ### Affix selection
 
