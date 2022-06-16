@@ -39,6 +39,10 @@ A major confounder not addressed by the cleaning described above is that some of
 
 At one point I had the idea of maintaining a blacklist of false positive terms to exclude, but this can't really be done cleanly because there are so many terms that are used with a mix of literal and pejorative meaning (e.g. *shitstain*).
 
+### Dealing with high-frequency terms
+
+Downloading every single comment having a very common compound such as *dumbass* would take a long time and disk space. For very high frequency terms, we estimate their total frequency by extrapolating from some randomly sampled time intervals spaced out over the years. We only use 30 random 10-second intervals per year, which is probably not a very robust sample size, but we use the same intervals across all terms, so any bias is at least applied consistently to all high-frequency terms.
+
 ## Data pipeline
 
 ### 1. download comments
