@@ -15,7 +15,7 @@ For each of the ~70x70 possible A+B compounds from the product of these lists, I
 
 ### Affix selection
 
-The process for selecting the set of prefixes and suffixes to combine was pretty unscientific. I mostly drew inspiration from scanning the ["English derogatory terms" category on Wiktionary](https://en.wiktionary.org/wiki/Category:English_derogatory_terms). I mostly aimed to find affixes which were both frequent and productive (i.e. not limited to just a handful of fixed combinations).
+The process for selecting the set of prefixes and suffixes to combine was pretty unscientific. I mostly drew inspiration from scanning the ["English derogatory terms" category on Wiktionary](https://en.wiktionary.org/wiki/Category:English_derogatory_terms). I aimed to find affixes which were both frequent and productive (i.e. not limited to just a handful of fixed combinations).
 
 As future work, it would be interesting to explore some sort of semi-supervised method of generating affixes. For example, we could start with a small set of "obvious" affixes (e.g. *shit-*, *fuck-*, *butt-*, *-face*, *-head*, *-wad*) and iteratively expand the set by searching for a suffix that best combines with the current set of prefixes (optimizing for, say, sum of log counts) and adding a prefix that best combines with the current set of suffixes.
 
@@ -51,7 +51,7 @@ Run `reddit_counts.py` to download comment data for all combinations of prefixes
 
 Comments will be saved as arrays of json objects in `comment_data/`, with one file per compound (e.g. `comment_data/poophead.json`). Comment arrays are sorted by date, ascending.
 
-There is a cap on the number of comments that will be downloaded per term (default 40k, configurable via `MAX_REQUESTS_PER_TERM`). This is because we can only download comments 100 at a time, and downloading all comments for very high-frequency terms (e.g. *dumbass*) would take many hours. We deal with terms that hit the cap in step 2.
+There is a cap for high-frequency terms (default 40k, configurable via `MAX_REQUESTS_PER_TERM`). We'll stop downloading comments for a term when we hit that cap (we'll extrapolate a sampled count for them in step 2).
 
 ### 1.5 compute preliminary counts
 
@@ -77,9 +77,7 @@ python compute_counts.py > counts.csv
 
 For terms that were sampled (in step 3), the script will calculate an estimated total comment count based on the sampling rate. For other terms, it will do a count over all comment data.
 
-In both cases, the script will also do some filtering of comments that should not be counted for various reasons, including:
-- the term only appears as part of a URL, or a reference to a Reddit username or subreddit (the pushshift API does some fuzzy matching, such that the query "ratwaffle" will match tokens like "/u/ratwaffle" or "www.yelp.com/ratwaffle-house")
-- the comment is a known "copypasta" (in particular, there are a couple commonly reposted comments that consist entirely of lists of dirty words - these have an especially distortionary effect on rare terms which appear in the list)
+In this step, we also apply filters to exclude "copypasta" comments and occurrences as part of urls or mentioned Reddit users or subreddits.
 
 ### 4. record wiktionary presence
 
