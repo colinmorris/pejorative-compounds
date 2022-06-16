@@ -1,3 +1,39 @@
+Experiment in collecting and analysing data on the frequencies of compound insults - e.g. *butthead*, *dirtwad*, *weaselboy* - in Reddit comments. Writeup forthcoming.
+
+Warning: this repository contains language that some readers may find **very offensive**, including slurs.
+
+## Overview
+
+I manually curated lists of around 70 prefixes and 70 suffixes (with some overlap between them) which could plausibly be used to form a variety of pejorative compounds. These lists can be found in `reddit_counts.py`.
+
+For each of the ~70x70 possible A+B compounds from the product of these lists, I used the Pushshift API to collect comments containing that compound. I then applied some data cleaning steps and heuristics to estimate the number of comments using that term on Reddit up to the end of 2020. (See the "Data pipeline" section below for the technical details on how each step of the data collection and cleaning is performed.)
+
+### Affix selection
+
+The process for selecting the set of prefixes and suffixes to combine was pretty unscientific. I mostly drew inspiration from scanning the ["English derogatory terms" category on Wiktionary](https://en.wiktionary.org/wiki/Category:English_derogatory_terms). I mostly aimed to find affixes which were both frequent and productive (i.e. not limited to just a handful of fixed combinations).
+
+As future work, it would be interesting to explore some sort of semi-supervised method of generating affixes. For example, we could start with a small set of "obvious" affixes (e.g. *shit-*, *fuck-*, *butt-*, *-face*, *-head*, *-wad*) and iteratively expand the set by searching for a suffix that best combines with the current set of prefixes (optimizing for, say, sum of log counts) and adding a prefix that best combines with the current set of suffixes.
+
+I was mostly interested in noun-noun compounds, but the suffix list also includes a small number of bound morphemes such as *-oid*, and *-let*.
+
+### Data cleaning
+
+There are two main categories of spurious usage which I aim to filter out (implemented in `compute_counts.py`):
+
+1. "Copypasta". There are some frequently reposted comments consisting of lists of dirty words ([example](https://www.reddit.com/r/copypasta/comments/jmt0xx/every_single_swear_word_i_didnt_write_this_i/)). These have a tendency to hugely inflate the counts for rare terms. We attempt to exclude them by a) Searching for the presence of substrings that distinctly identify some specific copypastas. b) Excluding all comments from the /r/copypasta subreddit.
+2. Occurrences as part of a url or mention of a Reddit username ("/u/gayfart") or subreddit ("/r/titbird"). These are included as part of Pushshift's fuzzy matching algorithm, but I filter them out.
+
+### Other false positives
+
+A major confounder not addressed by the cleaning described above is that some of the compounds formed from our affixes are partially or entirely used with a meaning that is literal or non-pejorative. A few examples:
+
+- *spitball*
+- *shitstain*
+- *stinkweed* (apparently the name for [a number of actual plants](https://en.wikipedia.org/wiki/Stinkweed))
+- Some matches which potentially aren't even the right part of speech (*dogpile*, *buttfuck*)
+
+At one point I had the idea of maintaining a blacklist of false positive terms to exclude, but this can't really be done cleanly because there are so many terms that are used with a mix of literal and pejorative meaning (e.g. *shitstain*).
+
 ## Data pipeline
 
 ### 1. download comments
