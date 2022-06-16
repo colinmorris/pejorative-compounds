@@ -1,0 +1,11 @@
+requests
+pandas
+matplotlib
+seaborn
+jupyterlab
+wiktionaryparser
+# workaround for https://github.com/jupyter/notebook/issues/2435 to fix tab completion
+jedi==0.17.2
+# for rendering dataframes as markdown
+tabulate
+adjustText
