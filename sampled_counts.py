@@ -116,17 +116,5 @@ def main():
         sys.stderr.write(term + '\n')
         fetch_sampled_comments(term, ints)
 
-def main2():
-    """Download sampled data for our 'blacklist' terms.
-
-    Onetime thing.
-    """
-    from reddit_counts import BLACKLIST
-    ints = get_intervals(seed=1337)
-    for term in BLACKLIST:
-        sys.stderr.write(term + '\n')
-        fetch_sampled_comments(term, ints)
-
 if __name__ == '__main__':
-    #main()
-    #main2()
+    main()

@@ -59,22 +59,6 @@ suffixes_by_cat = dict(
         expletive='fuck,shit,fart',
         other='wit,lib,breath',
 )
-# Significantly expanded both lists since last run. From 420 combinations to 4140.
-# That's a big jump...
-# This is likely going to have some unfortunate collisions with terms that have a more specific function
-# than just being a generic insult or expletive. e.g. titfuck, cheeseball, soyburger
-# might want a blacklist?
-# Further additions since subsequent run: -bitch, bitch-, -balls, -breath
-BLACKLIST = {
-        'dogshit',
-        'dogpile',
-        'bumfuck',
-        'buttfuck',
-        'titfuck',
-        'ratfuck',
-        'spitball',
-}
-# XXX: Looks like this is no longer respected? These all have non-zero counts in counts.csv. Maybe this was added after that data was collected? Should figure this out.
 
 def flatcats(affixes_by_cat):
     affixes = []
@@ -148,10 +132,7 @@ if __name__ == '__main__':
             continue
         term = pre + post
         print(f"Dowloading comments for term {term!r}")
-        if term in BLACKLIST:
-            count = 0
-        else:
-            download_comments(term)
+        download_comments(term)
         n += 1
         if TERMLIMIT and n >= TERMLIMIT:
             break
