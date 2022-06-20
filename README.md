@@ -89,7 +89,7 @@ This will make one request per row in `counts.csv`, taking around 20 minutes.
 
 `viz_helpers.py` is a module of helper functions used across these notebooks. `heatmap.py` has helpers specific to making heatmap affix-affix heatmap visualizations.
 
-Main notebooks:
+Notebooks:
 - `affixes.ipynb`: generates the affix 'flexibility' plots using collision probability and Shannon entropy. Also some other by-affix visualizations not used in writeup.
                    NB: some of these take a while to generate because they use adjust_text to jiggle around markers/labels
 - `minimaps.ipynb`: generates the mini-matrices used in writeup for comparing narrow groups of related affixes (e.g. butt vs ass vs bum)
@@ -98,27 +98,4 @@ Main notebooks:
 - `viz.ipynb`: main heatmap visualization experiments
 - `wikt.ipynb`: charts/data relating to questions of most popular terms lacking a wikt entry and least popular terms having a wikt entry
 - `zipf.ipynb`: looking at distribution of counts, Zipf visualization of log-frequency vs. log-rank
-- 
 
-The following notebooks are early experiments or explorations that have been obsoleted by later developments:
-- `compounds.ipynb`: a few exploratory early matrix visualizations. Predates helper modules.
-- `extrapolation.ipynb`: early experiments with filtering comments and computing extrapolated counts for capped compounds. Has some interesting CDF visualizations showing popularity of terms over time. Might be worth developing that theme more.
-- `flexibility.ipynb`: superseded by affixes.ipynb
-- `jan.ipynb`: ???
-- `wikt_obsolete.ipynb`: experiments with Wiktionary API. Led to development of `wikt.py` script.
-
-## Guide to data files
-
-`counts.csv` seems to be most recent data file. Has the most rows, so.
-
-`wikt.csv` seems to be most up-to-date data file for wikt presence (but need to rerun)
-
-Looks like data was collected in Jan 2021. `reddit_counts.py` sets an end limit of 1/1/2021, so counts should be cumulative through 2020.
-
-`suffixes.csv` and `prefixes.csv` are dataframes generated in the `affixes.ipynb` notebook. They have some data associated with each affix, such as measures of flexibility (collision probability, Shannon entropy), total frequency, most frequent counterpart, and the proportion of all occurrences comprised by that most-frequent combination.
-
-## Ngram stuff
-
-`compound_unigrams.tsv` has Google Books ngram data for compounds. There is a slight discrepancy in terms of compound coverage with the latest version of `counts.csv` and related files, since some affixes were added and removed since the ngram data was collected.
-
-`parse_unigrams.py` takes that file as input and crunches the year dimension to create `ngram_counts.csv`, which has the same format as `counts.csv` and `wikt.csv`.
