@@ -1,4 +1,4 @@
-Experiment in collecting and analysing data on the frequencies of compound insults - e.g. *butthead*, *dirtwad*, *weaselboy* - in Reddit comments. Writeup forthcoming.
+Experiment in collecting and analysing data on the frequencies of compound insults - e.g. *butthead*, *dirtwad*, *weaselboy* - in Reddit comments. [Written up as a blog post here.](https://colinmorris.github.io/blog/compound-curse-words)
 
 Warning: this repository contains language that some readers may find **very offensive**, including slurs.
 
